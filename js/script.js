@@ -1,22 +1,30 @@
 const linkApi = 'https://flynn.boolean.careers/exercises/api/random/mail';
 let ulElement = document.querySelector('.list-group');
 
-for (let i = 0; i < 10; i++) {
+const elementForm = document.getElementById('form');
 
-    axios.get(linkApi)
-        .then(response => {
-            const result = response.data;
-            createLi(result.response);
+// Funzione per creare l'email
 
-            console.log(result.response);
-        })
-        .catch(error => {
-            error = 'ERRORE!!!!!'
-            createLi(error);
-        });
+function createEmail() {
+
+    ulElement.innerHTML = " ";
+
+    for (let i = 0; i < 10; i++) {
+        ulElement.innerHTML = " ";
+
+        axios.get(linkApi)
+            .then(response => {
+                const result = response.data;
+                createLi(result.response);
+
+                console.log(result.response);
+            })
+            .catch(error => {
+                error = 'ERRORE!!!!!'
+                createLi(error);
+            });
+    }
 }
-
-
 
 
 /*
@@ -26,6 +34,8 @@ for (let i = 0; i < 10; i++) {
 */
 
 function createLi(email) {
+
+
     let liElement = document.createElement('li');
     liElement.classList.add('list-group-item');
     liElement.append(email);
@@ -37,3 +47,13 @@ function createLi(email) {
     return ulElement;
 
 }
+
+// Richiamo la funzione premendo il bottone
+elementForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    createEmail();
+});
+
+//Invoco la funzione
+createEmail();
